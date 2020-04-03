@@ -1,17 +1,38 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Unsorted{% endblock %}
+{% block title %}Cards Game{% endblock %}
 
 {% block body %}
+<div class="main-content-inner">
     {% set routeName =  app.request.attributes.get('_route') %}
-
-    {% for card in cards %}
-        <img src="https://raw.githubusercontent.com/aaronfdes/angular-card-game/master/src/assets/cards/{{ card }}.png">
-
-    {% endfor %}
-    {% if routeName =='unsorted' %}
-    <a href="{{ path('sorted') }}">Sorted data</a>
-    {% else %}
-        <a href="{{ path('unsorted') }}">Reload</a>
-    {% endif %}
+    <div class="page-header" id="banner1">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <h1>Let's Play</h1>
+                {% if routeName =='unsorted' %}
+                <p class="lead">Your random cards</p>
+                {% else %}
+                    <p class="lead">Your sorted cards </p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 offset-1">
+            {% for card in cards %}
+                <img src="https://raw.githubusercontent.com/aaronfdes/angular-card-game/master/src/assets/cards/{{ card }}.png">
+            {% endfor %}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-4 offset-5">
+            {% if routeName =='unsorted' %}
+                <a class="btn btn-primary " href="{{ path('sorted') }}">Sorted Cards</a>
+            {% else %}
+                <a class="btn btn-primary" href="{{ path('unsorted') }}">Random Cards</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\Services;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class CoreController extends AbstractController
@@ -21,31 +22,29 @@ class CoreController extends AbstractController
     {
         $data = new ArrayCollection();
         while (self::LIMIT > $data->count()) {
-            $value = $services->randomValue(self::VALUES);
+            $number = $services->randomValue(self::VALUES);
             $color = $services->randomValue(self::COLORS);
-            $key = $value . "_" . $color;
-            if (!$data->contains($key)) {
-                $data->add($key);
+            $card = $number . "_" . $color;
+            if (!$data->contains($card)) {
+                $data->add($card);
             }
         }
         $cards = $data->getValues();
-        $this->get('session')->set('data', $cards);
-        $dataunsorted = $services->getData($cards, self::VALUES, self::COLORS);
+        $services->setDataSession($cards);
+        $dataUnsorted = $services->getData($cards);
         return $this->render('core/index.html.twig', [
-            'cards' => $dataunsorted,
+            'cards' => $dataUnsorted,
         ]);
     }
 
     /**
-     * @Route("/core", name="sorted")
+     * @Route("/sorted", name="sorted")
      */
 
     public function sortedCards(Services $services)
     {
-
-        $cards = $this->get('session')->get('data');
-        sort($cards);
-        $dataSorted = $services->getData($cards, self::VALUES, self::COLORS);
+        $cards = $services->sortCards();
+        $dataSorted = $services->getData($cards);
         return $this->render('core/index.html.twig', [
             'cards' => $dataSorted,
         ]);
