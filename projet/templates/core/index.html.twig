@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Unsorted{% endblock %}
+
+{% block body %}
+    {% set routeName =  app.request.attributes.get('_route') %}
+
+    {% for card in cards %}
+        <img src="https://raw.githubusercontent.com/aaronfdes/angular-card-game/master/src/assets/cards/{{ card }}.png">
+
+    {% endfor %}
+    {% if routeName =='unsorted' %}
+    <a href="{{ path('sorted') }}">Sorted data</a>
+    {% else %}
+        <a href="{{ path('unsorted') }}">Reload</a>
+    {% endif %}
+{% endblock %}

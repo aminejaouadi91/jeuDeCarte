@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sorted{% endblock %}
+
+{% block body %}
+    {% for card in cards %}
+        <img src="https://raw.githubusercontent.com/aaronfdes/angular-card-game/master/src/assets/cards/{{ card }}.png">
+
+    {% endfor %}
+{% endblock %}
